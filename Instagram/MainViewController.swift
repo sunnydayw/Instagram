@@ -13,25 +13,26 @@ class MainViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     var posts: [PFObject]?
+    let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        Post.userTimeline({ (response:[PFObject]) -> () in
-            self.posts = response
-            self.tableView.reloadData()
-        }) { (error: NSError) -> () in
-            print(error.localizedDescription)
-        }
+        loadMoreData()
+        refreshControl.addTarget(self, action: "refreshControlAction:", forControlEvents: UIControlEvents.ValueChanged)
+        tableView.insertSubview(refreshControl, atIndex: 0)
         
+        //self.automaticallyAdjustsScrollViewInsets = false
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.estimatedRowHeight = 600
+}
+    
+    override func viewDidAppear(animated: Bool) {
+        //super.viewDidAppear(animated)
+        tableView.reloadData()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -43,6 +44,13 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController: UITableViewDelegate,UITableViewDataSource {
+    /*
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        print(self.tableView.rowHeight)
+        return 100.0
+    }
+    */
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var count = 0
@@ -56,11 +64,27 @@ extension MainViewController: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MainViewCell", forIndexPath: indexPath) as! MainTableViewCell
-        print("set post\(posts![indexPath.row])")
         cell.post = posts![indexPath.row]
         return cell
     }
+}
+
+// MARK: - Refresh Control
+extension MainViewController {
+    func refreshControlAction(refreshControl: UIRefreshControl) {
+        loadMoreData()
+        tableView.reloadData()
+        refreshControl.endRefreshing()
+    }
     
+    func loadMoreData() {
+        Post.userTimeline({ (response:[PFObject]) -> () in
+            self.posts = response
+            self.tableView.reloadData()
+            }) { (error: NSError) -> () in
+            print(error.localizedDescription)
+        }
+    }
 }
 
 

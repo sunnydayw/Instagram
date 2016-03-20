@@ -49,12 +49,12 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         // make Post
         var caption = newPostTextView.text
         if caption == "Write a caption..." {
-            caption = ""
+            caption = "User Post Nice Picture"
         }
         Post.postUserImage(newImg, withCaption: caption) { (success: Bool, error: NSError?) -> Void in
             if success == true {
-                print("post ")
                 self.dismissViewControllerAnimated(true, completion: nil)
+                //reload
             } else {
                 print(error?.localizedDescription)
                 self.dismissViewControllerAnimated(true, completion: nil)

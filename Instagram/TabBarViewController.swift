@@ -17,14 +17,14 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     }
 
     override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated);
+        super.viewDidAppear(animated)
         if(User.currentUser() == nil) {
-            self.performSegueWithIdentifier("loginSegue", sender: self);
+            self.performSegueWithIdentifier("loginSegue", sender: self)
+            
         }
     }
-
+    
     override func viewWillAppear(animated: Bool) {
-        
            /*
         let item1 = MainViewController()
         let icon1 = UITabBarItem(title: "Home", image: UIImage(named: "icon-home"), selectedImage: UIImage(named: "icon-home"))

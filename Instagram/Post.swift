@@ -8,6 +8,8 @@
 
 import UIKit
 import Parse
+import ParseUI
+
 
 class Post: NSObject {
     /**
@@ -48,9 +50,7 @@ class Post: NSObject {
         // Add relevant fields to the object
         post["media"] = getPFFileFromImage(image) // PFFile column type
         post["author"] = PFUser.currentUser() // Pointer column type that points to PFUser
-        print(PFUser.currentUser())
         post["caption"] = caption
-        print(caption)
         post["likesCount"] = 0
         post["commentsCount"] = 0
         // Save object (following function will save the object in Parse asynchronously)

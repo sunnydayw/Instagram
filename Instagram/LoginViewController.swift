@@ -46,6 +46,7 @@ class LoginViewController: UIViewController {
         if usernameField.text == "" {
             usernameField.text = "Username"
         }
+        
         if passwordField.text == "" {
             passwordField.text = "Password"
         }

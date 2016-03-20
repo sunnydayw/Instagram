@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 class ProfileViewController: UIViewController {
 
@@ -17,6 +18,13 @@ class ProfileViewController: UIViewController {
     }
     
 
+    @IBAction func onLogout(sender: AnyObject) {
+        PFUser.logOut()
+        let storyboard = UIStoryboard(name:"Main", bundle: NSBundle.mainBundle())
+        let TabBarNav = storyboard.instantiateViewControllerWithIdentifier("TabBarController") as! TabBarViewController
+        presentViewController(TabBarNav, animated: true, completion: nil)
+
+    }
     /*
     // MARK: - Navigation
 
