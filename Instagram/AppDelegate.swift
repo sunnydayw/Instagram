@@ -8,15 +8,33 @@
 
 import UIKit
 import CoreData
+import Parse
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        // Initialize Parse
+        // Set applicationId and server based on the values in the Heroku settings.
+        // clientKey is not used on Parse open source unless explicitly configured
+        Parse.initializeWithConfiguration(
+            ParseClientConfiguration(block: { (configuration:ParseMutableClientConfiguration) -> Void in
+                configuration.applicationId = "Instagram"
+                configuration.clientKey = "asdklfyiayq8hyyqgougasdfkahsd"
+                configuration.server = "https://guarded-lake-44732.herokuapp.com/parse"
+            })
+        )
+        
+        // Set up the Tab Bar Controller to have two tabs
+        //let tabBarController = UITabBarController()
+        //tabBarController.viewControllers = [MainNavController, CameraNavController,ProfileNavController]
+        
+        // Make the Tab Bar Controller the root view controller
+        //window?.rootViewController = tabBarController
+        //window?.makeKeyAndVisible()
+        
         return true
     }
 
